@@ -63,6 +63,7 @@
             this.bottomRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chromeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reduceToIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideTaskbarToIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +96,7 @@
             this.dockToolStripMenuItem,
             this.chromeToolStripMenuItem,
             this.reduceToIconToolStripMenuItem,
+            this.hideTaskbarToIconToolStripMenuItem,
             this.toolStripSeparator1,
             this.settingsToolStripMenuItem,
             this.aboutToolStripMenuItem,
@@ -412,6 +414,16 @@
             this.reduceToIconToolStripMenuItem.Text = global::OnTopReplica.Strings.MenuReduce;
             this.reduceToIconToolStripMenuItem.ToolTipText = global::OnTopReplica.Strings.MenuReduceTT;
             this.reduceToIconToolStripMenuItem.Click += new System.EventHandler(this.Menu_Reduce_click);
+			
+            // 
+            // hideTaskbarToIconToolStripMenuItem
+            // 
+            this.hideTaskbarToIconToolStripMenuItem.Image = global::OnTopReplica.Properties.Resources.xiao_component;
+            this.hideTaskbarToIconToolStripMenuItem.Name = "hideTaskbarToIconToolStripMenuItem";
+            this.hideTaskbarToIconToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.hideTaskbarToIconToolStripMenuItem.Text = "Hide taskbar icon";
+            this.hideTaskbarToIconToolStripMenuItem.ToolTipText = "Hide taskbar icon";
+            this.hideTaskbarToIconToolStripMenuItem.Click += new System.EventHandler(this.Menu_SysTray_click);
             // 
             // toolStripSeparator1
             // 
@@ -596,6 +608,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuModeStandardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuModeFullscreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuModeAllScreensToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideTaskbarToIconToolStripMenuItem;
     }
 }
 
