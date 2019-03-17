@@ -77,6 +77,7 @@
             this.menuModeAllScreensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableClickthroughToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuContext.SuspendLayout();
             this.menuWindows.SuspendLayout();
             this.menuOpacity.SuspendLayout();
@@ -414,7 +415,6 @@
             this.reduceToIconToolStripMenuItem.Text = global::OnTopReplica.Strings.MenuReduce;
             this.reduceToIconToolStripMenuItem.ToolTipText = global::OnTopReplica.Strings.MenuReduceTT;
             this.reduceToIconToolStripMenuItem.Click += new System.EventHandler(this.Menu_Reduce_click);
-			
             // 
             // hideTaskbarToIconToolStripMenuItem
             // 
@@ -532,6 +532,12 @@
             this.fullExitToolStripMenuItem.Text = global::OnTopReplica.Strings.MenuQuitFullscreen;
             this.fullExitToolStripMenuItem.Click += new System.EventHandler(this.Menu_Fullscreen_ExitFullscreen_click);
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.ContextMenuStrip = this.menuContext;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.notifyIcon.Visible = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -609,6 +615,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuModeFullscreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuModeAllScreensToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideTaskbarToIconToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 

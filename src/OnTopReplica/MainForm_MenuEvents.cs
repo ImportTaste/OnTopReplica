@@ -198,5 +198,19 @@ namespace OnTopReplica {
             FullscreenManager.SwitchFullscreen(FullscreenMode.AllScreens);
         }
 
+        private void Menu_SysTray_click(Object sender, EventArgs e) {
+            if(this.ShowInTaskbar) {
+                notifyIcon.Visible = true;
+                this.ShowInTaskbar = false;
+                reduceToIconToolStripMenuItem.Visible = false;
+                hideTaskbarToIconToolStripMenuItem.Text = "Hide the main window";
+                hideTaskbarToIconToolStripMenuItem.Image = reduceToIconToolStripMenuItem.Image;
+            }
+            else {
+                this.TopMost = !this.TopMost;
+                this.WindowState = this.TopMost ? FormWindowState.Normal : FormWindowState.Minimized;
+                hideTaskbarToIconToolStripMenuItem.Text = (this.TopMost ? "Hide" : "Show") + " the main window";
+            }
+        }
     }
 }

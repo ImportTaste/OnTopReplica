@@ -25,8 +25,6 @@ namespace OnTopReplica {
 
         Options _startupOptions;
 
-        System.Windows.Forms.NotifyIcon mNotifyIcon = null;
-
         public MainForm(Options startupOptions) {
             _startupOptions = startupOptions;
 
@@ -56,12 +54,17 @@ namespace OnTopReplica {
             //Set to Key event preview
             this.KeyPreview = true;
 
+            notifyIcon.Text = Application.ProductName;
+            notifyIcon.DoubleClick +=
+                delegate (object s, EventArgs args) {
+                    TopMost = !TopMost;
+                    this.WindowState = TopMost ? FormWindowState.Normal : FormWindowState.Minimized;
+                };
+
             Log.Write("Main form constructed");
         }
 
         #region Event override
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        extern static bool DestroyIcon(IntPtr handle);
 
         protected override void OnHandleCreated(EventArgs e){
  	        base.OnHandleCreated(e);
@@ -79,28 +82,6 @@ namespace OnTopReplica {
 
             //Platform specific form initialization
             Program.Platform.PostHandleFormInit(this);
-
-
-            if(mNotifyIcon == null) {
-                mNotifyIcon = new System.Windows.Forms.NotifyIcon();
-
-                mNotifyIcon.Icon = OnTopReplica.Properties.Resources.new_flat_icon;
-                mNotifyIcon.Text = Application.ProductName;
-
-                mNotifyIcon.Visible = true;
-                //this.ShowInTaskbar = false;
-                mNotifyIcon.DoubleClick +=
-                    delegate (object s, EventArgs args) {
-                        TopMost = !TopMost;
-                        this.WindowState = TopMost? FormWindowState.Normal:FormWindowState.Minimized;
-                    };
-
-                mNotifyIcon.MouseClick += delegate (object s, System.Windows.Forms.MouseEventArgs me) {
-                    if (me.Button ==MouseButtons.Right)
-                        OpenContextMenu(null);
-                };
-                
-            }
         }
 
         protected override void OnShown(EventArgs e) {
@@ -114,12 +95,6 @@ namespace OnTopReplica {
         protected override void OnClosing(CancelEventArgs e) {
             Log.Write("Main form closing");
             base.OnClosing(e);
-
-            if (mNotifyIcon != null) {
-                mNotifyIcon.Dispose();
-                mNotifyIcon = null;
-            }
-
 
             _msgPumpManager.Dispose();
             Program.Platform.CloseForm(this);
@@ -165,7 +140,7 @@ namespace OnTopReplica {
 
             //HACK: sometimes, even if TopMost is true, the window loses its "always on top" status.
             //  This is a fix attempt that probably won't work...
-            if (!FullscreenManager.IsFullscreen) { //fullscreen mode doesn't use TopMost
+            if (!FullscreenManager.IsFullscreen && WindowState != FormWindowState.Minimized) { //fullscreen mode doesn't use TopMost
                 TopMost = false;
                 TopMost = true;
             }
@@ -337,10 +312,7 @@ namespace OnTopReplica {
             try {
                 Log.Write("Cloning window HWND {0} of class {1}", handle.Handle, handle.Class);
 
-                if (mNotifyIcon != null) {
-                    //mNotifyIcon.ShowBalloonTip(1000, handle.Title, handle.Title, ToolTipIcon.Info);
-                    mNotifyIcon.Text = handle.Title;
-                }
+                notifyIcon.Text = handle.Title;
 
                 CurrentThumbnailWindowHandle = handle;
                 _thumbnailPanel.SetThumbnailHandle(handle, region);
@@ -493,12 +465,6 @@ namespace OnTopReplica {
         }
 
         #endregion
-
-        private void Menu_SysTray_click(Object sender, EventArgs e) {
-            mNotifyIcon.Visible = true;
-            this.ShowInTaskbar = false;
-            reduceToIconToolStripMenuItem.Visible = false;
-            hideTaskbarToIconToolStripMenuItem.Visible = false;
-        }
+        
     }
 }
