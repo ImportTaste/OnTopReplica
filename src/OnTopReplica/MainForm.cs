@@ -54,6 +54,13 @@ namespace OnTopReplica {
             //Set to Key event preview
             this.KeyPreview = true;
 
+            notifyIcon.Text = Application.ProductName;
+            notifyIcon.DoubleClick +=
+                delegate (object s, EventArgs args) {
+                    TopMost = !TopMost;
+                    this.WindowState = TopMost ? FormWindowState.Normal : FormWindowState.Minimized;
+                };
+
             Log.Write("Main form constructed");
         }
 
@@ -133,7 +140,7 @@ namespace OnTopReplica {
 
             //HACK: sometimes, even if TopMost is true, the window loses its "always on top" status.
             //  This is a fix attempt that probably won't work...
-            if (!FullscreenManager.IsFullscreen) { //fullscreen mode doesn't use TopMost
+            if (!FullscreenManager.IsFullscreen && WindowState != FormWindowState.Minimized) { //fullscreen mode doesn't use TopMost
                 TopMost = false;
                 TopMost = true;
             }
@@ -304,6 +311,8 @@ namespace OnTopReplica {
         public void SetThumbnail(WindowHandle handle, ThumbnailRegion region) {
             try {
                 Log.Write("Cloning window HWND {0} of class {1}", handle.Handle, handle.Class);
+
+                notifyIcon.Text = handle.Title;
 
                 CurrentThumbnailWindowHandle = handle;
                 _thumbnailPanel.SetThumbnailHandle(handle, region);
